@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnniVersoLogo from "@/components/branding/OnniVersoLogo";
 import { LogOut } from "lucide-react";
@@ -11,12 +11,14 @@ type NavbarProps = {
 };
 
 const Navbar = ({ onExit }: NavbarProps) => {
+  const navigate = useNavigate();
   const { signOut } = useManagerAuth();
 
   const handleExit = async () => {
     await signOut();
-    toast.success("Sesión cerrada");
+    toast.success("Listo");
     onExit?.();
+    navigate("/inicio", { replace: true });
   };
 
   return (

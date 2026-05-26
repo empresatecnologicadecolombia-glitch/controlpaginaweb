@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { to: "/", end: true, label: "Dashboard", icon: Home },
+  { to: "/dashboard", label: "Dashboard", icon: Home },
   { to: "/usuarios", label: "Usuarios", icon: Users },
   { to: "/conciertos", label: "Conciertos", icon: Ticket },
   { to: "/chat", label: "Chat", icon: MessagesSquare },
@@ -42,8 +42,8 @@ const ManagerProfileNav = () => (
       Panel de control
     </p>
     <nav className="grid grid-cols-3 gap-2 sm:gap-2.5">
-      {NAV_ITEMS.map(({ to, end, label, icon: Icon }) => (
-        <NavLink key={to} to={to} end={end} className={navButtonClass}>
+      {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+        <NavLink key={to} to={to} className={navButtonClass}>
           <Icon className="h-4 w-4 shrink-0" aria-hidden />
           <span className="leading-tight">{label}</span>
         </NavLink>

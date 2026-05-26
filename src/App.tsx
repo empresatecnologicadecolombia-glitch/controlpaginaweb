@@ -4,7 +4,6 @@ import ManagerShell from "@/components/layout/ManagerShell";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import ManagerHomePage from "./pages/ManagerHomePage.tsx";
 import UsuariosPage from "./pages/UsuariosPage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
 import ConciertosPage from "./pages/ConciertosPage.tsx";
 import ChatPage from "./pages/ChatPage.tsx";
 import StreamingPage from "./pages/StreamingPage.tsx";
@@ -18,10 +17,10 @@ const App = () => (
     <Toaster />
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
         <Route element={<ManagerShell />}>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/" element={<Navigate to="/inicio" replace />} />
           <Route path="/inicio" element={<ManagerHomePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/usuarios" element={<UsuariosPage />} />
           <Route path="/conciertos" element={<ConciertosPage />} />
           <Route path="/chat" element={<ChatPage />} />
@@ -30,7 +29,8 @@ const App = () => (
           <Route path="/logs" element={<LogsPage />} />
           <Route path="/config" element={<ConfigPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/login" element={<Navigate to="/inicio" replace />} />
+          <Route path="*" element={<Navigate to="/inicio" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

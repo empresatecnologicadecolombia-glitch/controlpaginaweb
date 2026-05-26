@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Lock, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -6,12 +7,17 @@ import { Input } from "@/components/ui/input";
 import { useManagerAuth } from "@/hooks/useManagerAuth";
 
 const LoginPage = () => {
-  const { configured, signInWithPassword } = useManagerAuth();
+  const navigate = useNavigate();
+  const { configured, loading, user, signInWithPassword } = useManagerAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
   const canSubmit = useMemo(() => email.trim() && password.trim() && !busy, [busy, email, password]);
+
+  useEffect(() => {
+    if (!loading && user) navigate("/inicio", { replace: true });
+  }, [loading, user, navigate]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,12 +30,21 @@ const LoginPage = () => {
     try {
       await signInWithPassword(email.trim(), password);
       toast.success("Sesión iniciada");
+      navigate("/inicio", { replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "No se pudo iniciar sesión");
     } finally {
       setBusy(false);
     }
   };
+
+  if (loading) {
+    return (
+      <main className="flex min-h-[100dvh] items-center justify-center bg-black text-sm text-muted-foreground">
+        Cargando…
+      </main>
+    );
+  }
 
   return (
     <main className="relative min-h-[100dvh] bg-black">
@@ -49,7 +64,7 @@ const LoginPage = () => {
           </div>
           <h1 className="font-display text-2xl text-gradient-neon">Iniciar sesión</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Acceso restringido. Solo usuarios autorizados.
+            Usa tu correo y contraseña del panel (tabla manager_app_users).
           </p>
 
           <form onSubmit={onSubmit} className="mt-6 space-y-4">
@@ -62,7 +77,7 @@ const LoginPage = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
                 inputMode="email"
-                placeholder="tu@correo.com"
+                placeholder="deivys1224@gmail.com"
                 disabled={busy}
               />
             </div>
@@ -91,4 +106,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
