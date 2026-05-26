@@ -46,6 +46,13 @@ export const LOCKED_MOON = {
 export const LOCKED_PROFILE_CARD_WRAPPER_CLASS =
   "pointer-events-auto w-full max-w-[min(92vw,280px)] origin-bottom scale-x-[0.605] scale-y-[0.6655] -translate-y-[calc(clamp(2rem,11.2vh,5.2rem)+20.8%)] md:-translate-y-[calc(clamp(4.16rem,20vh,10.8rem)+20.8%)]";
 
+/** Contenedor en /inicio: tarjeta de perfil + panel de navegación aparte. */
+export const MANAGER_HOME_PROFILE_WRAPPER_CLASS =
+  "pointer-events-auto flex w-full max-w-[min(94vw,400px)] flex-col items-stretch gap-4";
+
+/** Ancho de la tarjeta de perfil sola (sin menú). */
+export const MANAGER_HOME_PROFILE_CARD_CLASS = "w-full max-w-[min(92vw,300px)] mx-auto";
+
 /** Altura de la barra fija superior. */
 export const LOCKED_NAVBAR_HEIGHT_CLASS = "h-12";
 export const LOCKED_NAVBAR_MENU_OFFSET_CLASS = "top-12";

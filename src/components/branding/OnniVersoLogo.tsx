@@ -8,9 +8,11 @@ type OnniVersoLogoProps = {
   className?: string;
   /** Altura del icono (px aprox.) */
   iconSize?: number;
+  /** Mostrar texto "OnniVers" junto al ícono. */
+  showText?: boolean;
 };
 
-const OnniVersoLogo = ({ className = "", iconSize = 28 }: OnniVersoLogoProps) => {
+const OnniVersoLogo = ({ className = "", iconSize = 28, showText = true }: OnniVersoLogoProps) => {
   const rid = useId().replace(/:/g, "");
   const gradId = `onni-grad-${rid}`;
 
@@ -34,12 +36,14 @@ const OnniVersoLogo = ({ className = "", iconSize = 28 }: OnniVersoLogoProps) =>
         <ellipse cx="24" cy="24" rx="21" ry="10" fill="none" stroke={`url(#${gradId})`} strokeWidth="1.4" opacity="0.65" />
         <circle cx="24" cy="24" r="7" fill="hsl(190 90% 52% / 0.25)" stroke={`url(#${gradId})`} strokeWidth="1.5" />
       </svg>
-      <span
-        aria-hidden
-        className="whitespace-nowrap font-headline text-base font-semibold tracking-[0.12em] text-foreground sm:text-lg sm:tracking-[0.14em] md:text-xl md:tracking-[0.16em]"
-      >
-        Onni<span className="font-bold tracking-[0.22em] text-primary">Vers</span>
-      </span>
+      {showText ? (
+        <span
+          aria-hidden
+          className="whitespace-nowrap font-headline text-base font-semibold tracking-[0.12em] text-foreground sm:text-lg sm:tracking-[0.14em] md:text-xl md:tracking-[0.16em]"
+        >
+          Onni<span className="font-bold tracking-[0.22em] text-primary">Vers</span>
+        </span>
+      ) : null}
     </span>
   );
 };

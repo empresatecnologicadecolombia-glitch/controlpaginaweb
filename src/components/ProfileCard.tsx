@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Camera, PencilLine, UserPlus } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import OnniVersoLogo from "@/components/branding/OnniVersoLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,8 @@ export interface ProfileCardProps {
   onConfirm?: (payload: ProfileCardConfirmPayload) => void;
   onAddFriend?: () => void | Promise<void>;
   showAddFriend?: boolean;
+  /** Muestra el logo OnniVers en el círculo de avatar (si no hay foto subida). */
+  brandLogoAsAvatar?: boolean;
   className?: string;
 }
 
@@ -39,6 +42,7 @@ const ProfileCard = ({
   onConfirm,
   onAddFriend,
   showAddFriend = false,
+  brandLogoAsAvatar = false,
   className,
 }: ProfileCardProps) => {
   const navigate = useNavigate();
@@ -49,7 +53,8 @@ const ProfileCard = ({
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
 
-  const displayAvatar = avatarPreviewUrl ?? initialAvatarSrc ?? "/placeholder.svg";
+  const showBrandLogo = brandLogoAsAvatar && !avatarPreviewUrl && !avatarFile;
+  const displayAvatar = avatarPreviewUrl ?? (showBrandLogo ? null : initialAvatarSrc ?? "/placeholder.svg");
   const hasUnsavedChanges =
     avatarFile !== null || name.trim() !== (initialName.trim() || "Explorador VR");
 
@@ -130,11 +135,20 @@ const ProfileCard = ({
 
       <div className="relative mx-auto mb-3 h-[4.5rem] w-[4.5rem] sm:mb-4 sm:h-24 sm:w-24 md:h-28 md:w-28">
         <div className="absolute inset-0 rounded-full border border-primary/20 bg-black/20 shadow-[inset_0_0_20px_hsl(var(--primary)/0.12)]" />
-        <img
-          src={displayAvatar}
-          alt={name.trim() ? `Foto de perfil de ${name.trim()}` : "Foto de perfil"}
-          className="relative z-0 h-full w-full rounded-full object-cover ring-2 ring-white/10"
-        />
+        {showBrandLogo ? (
+          <div
+            className="relative z-0 flex h-full w-full items-center justify-center rounded-full bg-black/30 ring-2 ring-white/10"
+            aria-label="Logo OnniVers"
+          >
+            <OnniVersoLogo iconSize={56} showText={false} className="scale-90 sm:scale-100" />
+          </div>
+        ) : (
+          <img
+            src={displayAvatar ?? "/placeholder.svg"}
+            alt={name.trim() ? `Foto de perfil de ${name.trim()}` : "Foto de perfil"}
+            className="relative z-0 h-full w-full rounded-full object-cover ring-2 ring-white/10"
+          />
+        )}
         <Button
           type="button"
           size="icon"
